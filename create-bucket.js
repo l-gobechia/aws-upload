@@ -1,18 +1,13 @@
 const AWS = require('aws-sdk');
-// Enter copied or downloaded access ID and secret key here
-const ID = process.env.Aws_ID;
-const SECRET = process.env.Aws_Secret;
-
-// The name of the bucket that you have created
-const BUCKET_NAME = process.env.Aws_BUCKET_NAME;
+const myConfig = require('./config.js')
 
 const s3 = new AWS.S3({
-  accessKeyId: ID,
-  secretAccessKey: SECRET
+  accessKeyId: myConfig.aws.Id,
+  secretAccessKey: myConfig.aws.secret
 });
 
 const params = {
-  Bucket: BUCKET_NAME,
+  Bucket: myConfig.aws.bucketName,
   CreateBucketConfiguration: {
       // Set your region here
       LocationConstraint: "eu-west-1"

@@ -2,7 +2,7 @@ require('dotenv').config()
 const fs = require('fs');
 const S3 = require("aws-sdk/clients/s3");
 const { v4: uuidv4, v4 } = require('uuid');
-const BUCKET_NAME = process.env.Aws_BUCKET_NAME;
+const myConfig = require('./config.js');
 
 module.exports.uploadFile = async (fileName) => {
     try {
@@ -10,7 +10,7 @@ module.exports.uploadFile = async (fileName) => {
         const fileContent = fs.readFileSync(fileName);
         // Setting up S3 upload parameters
         const params = {
-            Bucket: BUCKET_NAME,
+            Bucket: myConfig.aws.bucketName,
             Key: `${v4()}cat.jpg`, // File name you want to save as in S3
             Body: fileContent,
             ACL:'public-read'

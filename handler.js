@@ -3,12 +3,13 @@ const axios = require('axios');
 const Fs = require('fs')
 const uploadToS3 = require('./upload.js');
 const createBucket = require('./create-bucket.js');
+const myConfig = require('./config.js');
 
 const getCatPhoto = async (status) => {
     const imgPath = "catImages/cat.jpeg";
     const res = await axios({ 
       method: "get", 
-      url: `${process.env.URL}${status}`,
+      url: `${myConfig.aws.url}${status}`,
       responseType: "stream" 
     });
 
