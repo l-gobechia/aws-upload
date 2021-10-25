@@ -1,3 +1,5 @@
+org: lasha
+app: test
 plugins:
   - serverless-offline
 service: test
@@ -10,11 +12,8 @@ provider:
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
 
-
-
-
 functions:
-  hello:
-    handler: handler.hello
+  cat:
+    handler: handler.cat
     events:
-      - http: GET hello
+    - http: GET cat
