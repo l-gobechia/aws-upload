@@ -2,13 +2,13 @@
 const axios = require('axios');
 const Fs = require('fs')
 const uploadToS3 = require('./upload.js');
+const createBucket = require('./create-bucket.js');
 
 const getCatPhoto = async (status) => {
-  try {
     const imgPath = "catImages/cat.jpeg";
     const res = await axios({ 
       method: "get", 
-      url: `https://http.cat/${status}`,
+      url: `${process.env.URL}${status}`,
       responseType: "stream" 
     });
 
@@ -19,14 +19,11 @@ const getCatPhoto = async (status) => {
       writeFile.on("finish", () => res(imgPath));
       writeFile.on("error", (err) => rej(err));
     });
-
-  } catch (err) {
-    console.log('err :>> ', err);
-  }
 };
 
 module.exports.cat = async (event) => {
   try {
+    await createBucket.createS3Bucket();
     const res = await getCatPhoto(event.pathParameter);
     let uploadRes;
     if (res) {

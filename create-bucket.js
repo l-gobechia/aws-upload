@@ -1,10 +1,10 @@
 const AWS = require('aws-sdk');
 // Enter copied or downloaded access ID and secret key here
-const ID = 'AKIAWX6PPGXDOTA7G2KS';
-const SECRET = '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';
+const ID = process.env.Aws_ID;
+const SECRET = process.env.Aws_Secret;
 
 // The name of the bucket that you have created
-const BUCKET_NAME = 'satestogashveba';
+const BUCKET_NAME = process.env.Aws_BUCKET_NAME;
 
 const s3 = new AWS.S3({
   accessKeyId: ID,
@@ -19,7 +19,10 @@ const params = {
   }
 };
 
-s3.createBucket(params, function(err, data) {
-  if (err) console.log(err, err.stack);
-  else console.log('Bucket Created Successfully', data.Location);
-});
+module.exports.createS3Bucket = async () => {
+  try {
+    return await s3.createBucket(params).promise();
+  } catch (err) {
+    console.log(`Your previous request to create the named bucket succeeded and you already own it`);
+  }
+}; 
